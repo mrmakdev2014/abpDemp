@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Acme.BookStore.Authors;
 using Acme.BookStore.Books;
+using Acme.BookStore.Events;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
@@ -13,16 +14,19 @@ namespace Acme.BookStore
     {
         private readonly IRepository<Book, Guid> _bookRepository;
         private readonly IAuthorRepository _authorRepository;
+        private readonly IRepository<Event, Guid> _EventRepository;
         private readonly AuthorManager _authorManager;
 
         public BookStoreDataSeederContributor(
             IRepository<Book, Guid> bookRepository,
-            IAuthorRepository authorRepository,
+            IAuthorRepository authorRepository, IRepository<Event,Guid> eventRepository,
             AuthorManager authorManager)
         {
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
             _authorManager = authorManager;
+           _EventRepository = eventRepository;
+
         }
 
         public async Task SeedAsync(DataSeedContext context)
@@ -71,6 +75,111 @@ namespace Acme.BookStore
                 },
                 autoSave: true
             );
+
+            #region Events Seed Data 
+            await _EventRepository.InsertAsync(
+                new Event
+                {
+                    Title = " Event 1 ",
+                    Description = " Event 1 Description ",
+                    StartDate = new DateTime(2020, 10, 1),
+                    EndDate = new DateTime(2020, 10, 1),
+                    EventType = EventType.Event
+
+
+                },
+                autoSave: true
+                );
+
+            await _EventRepository.InsertAsync(
+               new Event
+               {
+                   Title = " Event 2 ",
+                   Description = " Event 2 Description ",
+                   StartDate = new DateTime(2020, 10, 1),
+                   EndDate = new DateTime(2020, 10, 1),
+                   EventType = EventType.Event
+
+
+               },
+               autoSave: true
+               );
+
+
+            await _EventRepository.InsertAsync(
+               new Event
+               {
+                   Title = " Event 3 ",
+                   Description = " Event 3 Description ",
+                   StartDate = new DateTime(2020, 10, 1),
+                   EndDate = new DateTime(2020, 10, 1),
+                   EventType = EventType.Exhibition
+
+
+               },
+               autoSave: true
+               );
+
+
+            await _EventRepository.InsertAsync(
+               new Event
+               {
+                   Title = " Event 4 ",
+                   Description = " Event 4 Description ",
+                   StartDate = new DateTime(2020, 10, 1),
+                   EndDate = new DateTime(2020, 10, 1),
+                   EventType = EventType.Exhibition
+
+
+               },
+               autoSave: true
+               );
+
+
+            await _EventRepository.InsertAsync(
+               new Event
+               {
+                   Title = " Event 5 ",
+                   Description = " Event 5 Description ",
+                   StartDate = new DateTime(2020, 10, 1),
+                   EndDate = new DateTime(2020, 10, 1),
+                   EventType = EventType.Exhibition
+
+
+               },
+               autoSave: true
+               );
+
+
+            await _EventRepository.InsertAsync(
+               new Event
+               {
+                   Title = " Event 6 ",
+                   Description = " Event 6 Description ",
+                   StartDate = new DateTime(2020, 10, 1),
+                   EndDate = new DateTime(2020, 10, 1),
+                   EventType = EventType.Initiative
+
+
+               },
+               autoSave: true
+               );
+
+            await _EventRepository.InsertAsync(
+               new Event
+               {
+                   Title = " Event 7 ",
+                   Description = " Event 7 Description ",
+                   StartDate = new DateTime(2020, 10, 1),
+                   EndDate = new DateTime(2020, 10, 1),
+                   EventType = EventType.Initiative
+
+
+               },
+               autoSave: true
+               );
+            #endregion
+
         }
     }
 }

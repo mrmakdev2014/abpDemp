@@ -1,5 +1,6 @@
 ﻿using Acme.BookStore.Authors;
 using Acme.BookStore.Books;
+using Acme.BookStore.Events;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -13,7 +14,7 @@ namespace Acme.BookStore.EntityFrameworkCore
             Check.NotNull(builder, nameof(builder));
 
             /* Configure your own tables/entities inside here */
-
+             
             builder.Entity<Book>(b =>
             {
                 b.ToTable(BookStoreConsts.DbTablePrefix + "Books", BookStoreConsts.DbSchema);
@@ -36,6 +37,25 @@ namespace Acme.BookStore.EntityFrameworkCore
 
                 b.HasIndex(x => x.Name);
             });
+
+            builder.Entity<Event>(b =>
+            {
+                b.ToTable(BookStoreConsts.DbTablePrefix + "Events",
+                    BookStoreConsts.DbSchema);
+
+                b.ConfigureByConvention();
+
+                b.Property(x => x.Title)
+                    .IsRequired()
+                    .HasMaxLength(EventConsts.TitleMaxNameLength);
+                //b.Property(x => x.Description)
+                //  .IsRequired()
+                //  .HasMaxLength(EventConsts.DescriptionMaxNameLength);
+
+                b.HasIndex(x => x.Title);
+            });
+
+
         }
     }
 }
